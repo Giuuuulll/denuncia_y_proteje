@@ -1,0 +1,28 @@
+body{
+    background-color: rgb(236, 159, 175);
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+}
+
+section{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2em;
+    width: 80%;
+    margin:  0 auto;
+}
+
+img{
+    width: 100%;
+    transition: all .6s;
+
+}
+
+
+div{
+     overflow: hidden;
+}
+img:hover{
+    transform: scale(1.5);
+
+}
