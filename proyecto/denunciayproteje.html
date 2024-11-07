@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Denuncias</title>
+    
+    <link rel="stylesheet" href="denunciayproteje.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Denuncias</h1>
+            <button class="btn-primary" id="register-button">tu denuncia</button>
+        </div>
+        
+        
+        <div id="register-form" class="hidden">
+            <h2>Formulario de Denuncias</h2>
+            <form action="denuncia.php" method="post" enctype="multipart/form-data">
+                <div>
+                    <label for="tipo_de_incidente">Tipo de Incidente</label>
+                    <select id="tipo_de_incidente" name="tipo_de_incidente" required>
+                        <option value="">Selecciona un tipo</option>
+                        <option value="Robo">Robo</option>
+                        <option value="vandalismo">Vandalismo</option>
+                        <option value="Agresion">Agresion</option>
+                        <option value="Asalto">Asalto</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="descripcion_detallada">Descripción Detallada</label>
+                    <textarea id="descripcion_detallada" name="descripcion_detallada" rows="4" required></textarea>
+                </div>
+                <div>
+                    <label for="fecha_y_hora">Fecha y Hora</label>
+                    <input type="datetime-local" id="fecha_y_hora" name="fecha_y_hora" required>
+                </div>
+                <div>
+                    <label for="ubicacion_exacta">Ubicación Exacta</label>
+                    <input type="text" id="ubicacion_exacta" name="ubicacion_exacta" placeholder="Dirección o coordenadas" required>
+                </div>
+                <div>
+                    <label for="archivos_adjuntos">Archivos Adjuntos</label>
+                    <input type="file" id="archivos_adjuntos" name="archivos_adjuntos" multiple>
+                </div>
+                <div>
+                    <button type="submit">Enviar Denuncia</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="content">
+            
+            <p>
+               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et deserunt qui molestias voluptatum inventor
+               e architecto, dolorem assumenda minima reiciendis eveniet hic maiores laudantium commodi sequi at? Sequi maiores eligendi distinctio.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum doloremque fugiat debitis unde reprehenderit odit, provident,
+                 facilis earum quisquam ex atque reiciendis tenetur quia temporibus nulla adipisci quaerat animi nobis?
+            </p>
+            
+        </div>
+    </div>
+    <script src="denunciayproteje.js"></script>
+
+    <script>
+        const form = document.querySelector("form")
+        form.addEventListener("submit", (ev) => {
+            ev.preventDefault()
+            fetch("denuncia.php",{
+                method: "POST",
+                body:new FormData(form)
+            }).then(solicitud => solicitud.json())
+            .then(
+                resultado => {
+                    if (resultado.respuesta == "ok"){
+                        const defaults = {
+                            spread: 360,
+                            ticks: 100,
+                            gravity: 0,
+                            decay: 0.94,
+                            startVelocity: 30,
+                          };
+                          
+                          function shoot() {
+                            confetti({
+                              ...defaults,
+                              particleCount: 30,
+                              scalar: 1.2,
+                              shapes: ["circle", "square"],
+                              colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
+                            });
+                          
+                            confetti({
+                              ...defaults,
+                              particleCount: 20,
+                              scalar: 2,
+                              shapes: ["emoji"],
+                              shapeOptions: {
+                                emoji: {
+                                  value: ["🌸", "💗","🌈"],
+                                },
+                              },
+                            });
+                          }
+                          
+                          setTimeout(shoot, 0);
+                          setTimeout(shoot, 100);
+                          setTimeout(shoot, 200);
+
+                          const count = 200,
+  defecto = {
+    origin: { y: 0.7 },
+  };
+
+function fire(particleRatio, opts) {
+  confetti(
+    Object.assign({}, defecto, opts, {
+      particleCount: Math.floor(count * particleRatio),
+    })
+  );
+}
+
+fire(0.25, {
+  spread: 26,
+  startVelocity: 55,
+});
+
+fire(0.2, {
+  spread: 60,
+});
+
+fire(0.35, {
+  spread: 100,
+  decay: 0.91,
+  scalar: 0.8,
+});
+
+fire(0.1, {
+  spread: 120,
+  startVelocity: 25,
+  decay: 0.92,
+  scalar: 1.2,
+});
+
+fire(0.1, {
+  spread: 120,
+  startVelocity: 45,
+});
+                    }else{
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Something went wrong!",
+                            footer: '<a href="#">Why do I have this issue?</a>'
+                    });
+                }
+            }
+            
+            )
+           
+        })
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="registro.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <form action="registro.php" method="post">
+        <div>
+            <input type="text" name="usuario" placeholder="Ingresa tu usuario" required>
+        </div>
+        <div>
+            <input type="email" name="correo" placeholder="Ingresa tu correo" required>
+        </div>
+        <div>
+            <input type="password" name="contreseña" placeholder="Contraseña" required>
+        </div>
+        <button>Registrarse</button>
+    </form>
+    <a href="./iniciodesecion.html">Iniciar sesión</a>
+    <script>
+        const formulario = document.querySelector("form");
+        formulario.addEventListener("submit", function(evento) {
+            evento.preventDefault();
+            fetch(
+                formulario.action,
+                {
+                    method: formulario.method,
+                    body: new FormData(formulario)
+                }
+            ).then(solicitud => solicitud.json())
+            .then(
+                resultado => {
+                    if (resultado.respuesta == "registro") {
+                        confetti({
+                            particleCount: 100,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                        });
+                        setTimeout(function() {
+                            location.href = "http://localhost/proyectogiul/proteje.php";                       }, 1500);
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Error en el registro!",
+                        });
+                    }
+                }
+            );
+        });
+    </script>
+</body>
+</html>
